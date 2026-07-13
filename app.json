@@ -1,0 +1,38 @@
+{
+  "expo": {
+    "name": "twentyone",
+    "slug": "twentyone",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "platforms": ["android"],
+    "scheme": "agentpilot2",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0E1621"
+    },
+    "android": {
+      "package": "com.nodaysidle.agentpilot2.remote",
+      "softwareKeyboardLayoutMode": "pan",
+      "permissions": ["POST_NOTIFICATIONS", "CAMERA"],
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#0E1621"
+      }
+    },
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow twentyone to scan pairing QR codes from your Mac."
+        }
+      ]
+    ],
+    "notification": {
+      "icon": "./assets/notification-icon.png",
+      "color": "#3390EC"
+    }
+  }
+}

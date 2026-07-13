@@ -1,0 +1,44 @@
+{
+  "name": "twentyone",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "src/AppEntry.ts",
+  "scripts": {
+    "dev": "expo start --dev-client",
+    "android": "expo run:android",
+    "android:device": "expo run:android --device",
+    "android:prebuild": "expo prebuild --platform android",
+    "android:assemble": "cd android && ./gradlew assembleDebug",
+    "android:build": "expo export --platform android",
+    "assets": "node scripts/generate-assets.mjs",
+    "build": "tsc -p tsconfig.json --noEmit",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run --passWithNoTests",
+    "lint": "tsc -p tsconfig.json --noEmit",
+    "ios": "expo run:ios"
+  },
+  "dependencies": {
+    "@expo/vector-icons": "^15.1.1",
+    "@react-native-masked-view/masked-view": "0.3.2",
+    "@react-navigation/bottom-tabs": "^7.18.8",
+    "@react-navigation/native": "^7.3.8",
+    "@react-navigation/native-stack": "^7.17.10",
+    "expo": "^54.0.29",
+    "expo-camera": "~17.0.10",
+    "expo-notifications": "^0.32.14",
+    "expo-secure-store": "^15.0.8",
+    "expo-system-ui": "~6.0.9",
+    "react": "19.1.0",
+    "react-native": "0.81.5",
+    "react-native-avoid-softinput": "^9.0.0",
+    "react-native-gesture-handler": "^2.28.0",
+    "react-native-paper": "^5.15.3",
+    "react-native-safe-area-context": "^5.6.2",
+    "react-native-screens": "4.16.0"
+  },
+  "devDependencies": {
+    "@types/react": "~19.1.10",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.4"
+  }
+}
