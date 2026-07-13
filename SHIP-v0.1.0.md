@@ -11,7 +11,7 @@
 |-------|-------|
 | APK path | `apps/mobile/android/app/build/outputs/apk/release/app-release.apk` |
 | Size | 82 MB |
-| SHA256 | `f37b7cadb04e1a1b5ca8665b5dfcf54915d4e43872372717e3ad200c16faf384` |
+| SHA256 | `c184b14726aa787ca5350de73477f3de795e676e100fdbc0703fbe58244a749a` |
 
 ## Install
 
@@ -61,7 +61,7 @@ Gateway / Eldio bridge: unchanged in this release (mobile-only diff).
 
 ## GitHub mirror
 
-Not pushed in this ship. If mirroring later, tag `twentyone-v0.1.0` and attach this APK + SHA256 to the release notes.
+Pushed to https://github.com/nodaysidle/twentyone. If tagging releases, tag `twentyone-v0.1.0` and attach this APK + SHA256 to the release notes.
 
 ## Files changed (mobile v0.1)
 
