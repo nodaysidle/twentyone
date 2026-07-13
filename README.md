@@ -1,12 +1,81 @@
 # twentyone
 
-[![License: Proprietary](https://img.shields.io/badge/License-Proprietary-red.svg)](LICENSE)
-[![Platform](https://img.shields.io/badge/Platform-Android-green.svg)](https://expo.dev)
-[![Version](https://img.shields.io/badge/Version-0.1.0-blue.svg)](https://github.com/nodaysidle/twentyone/releases)
+> Android remote controller for nodaysgent — chat with your local Mac gateway, approve sensitive actions, and send slash commands over a Cloudflare tunnel.
 
-**twentyone** is the Android remote controller for [nodaysgent](https://github.com/nodaysidle) — a Telegram-style chat client that talks to your local Mac gateway over **Cloudflare quick tunnel**. Pair with a QR code, approve sensitive actions from your phone, and send slash commands without exposing your LAN.
+![Platform](https://img.shields.io/badge/platform-Android-green?style=flat-square&logo=android)
+![Version](https://img.shields.io/badge/version-0.1.0-blue?style=flat-square)
+![License](https://img.shields.io/badge/license-Proprietary-red?style=flat-square)
 
-> Proprietary software © NODAYSIDLE. See [LICENSE](LICENSE).
+## Overview
+
+**twentyone** is the Android companion for [nodaysgent](https://github.com/nodaysidle/nodaysgent) — a Telegram-style client that connects to your local Mac gateway over HTTPS. Pair once with a desktop QR code, then chat, review approvals, and run slash commands without exposing your LAN.
+
+Package: `com.nodaysidle.agentpilot2.remote` · Display name: **twentyone**
+
+## Features
+
+- **QR pairing** — scan desktop Remote Setup QR; app confirms via `/devices/confirm` and stores the device token
+- **Cloudflare tunnel** — release builds connect through a public HTTPS URL (no USB/LAN onboarding)
+- **Chat** — send prompts to the gateway; plain-text output with mobile-safe sanitization
+- **Approvals inbox** — badge-counted tab for permission prompts from sensitive gateway tools
+- **Slash commands** — `/status`, `/eldio`, and extensible handlers when the Eldio bridge is enabled
+- **Secure storage** — device tokens in Expo Secure Store
+
+## Requirements
+
+**Mac (gateway host)**
+
+- [nodaysgent](https://github.com/nodaysidle/nodaysgent) gateway running (default `127.0.0.1:3110`)
+- Public URL via Cloudflare quick tunnel or your own reverse proxy
+- Desktop → **Remote Setup** → **Create Android pairing token** (~5 min TTL)
+
+**Android device**
+
+- Android with camera (for QR pairing)
+- Sideload or adb install permission for release APK
+
+**Build from source**
+
+- Node.js 20+
+- Android SDK
+- JDK 17
+
+## Install
+
+1. Download `app-release.apk` from [GitHub Releases](https://github.com/nodaysidle/twentyone/releases/tag/twentyone-v0.1.0)
+   - SHA256: `c184b14726aa787ca5350de73477f3de795e676e100fdbc0703fbe58244a749a`
+2. Sideload on your Android device, or install via adb:
+
+```bash
+adb install -r app-release.apk
+```
+
+You need a running nodaysgent gateway with Cloudflare tunnel and a pairing QR from desktop **Remote Setup**.
+
+## Connect (QR)
+
+1. Open **twentyone** → **Scan pairing QR**
+2. Scan the JSON QR from desktop (contains `gatewayUrl`, pairing token, fingerprint, expiry)
+3. App confirms via `POST {gatewayUrl}/devices/confirm` and stores the device token
+4. Tap **Test connection** → **Continue to twentyone**
+
+**Manual fallback:** Settings → paste tunnel URL and device token.
+
+## Usage
+
+| Tab | Purpose |
+|-----|---------|
+| **Chat** | Send tasks and messages to the gateway; view responses |
+| **Approvals** | Approve or deny sensitive tool requests from the gateway |
+| **Settings** | View connection status, re-pair, or update gateway URL |
+
+**Slash commands** (when connected):
+
+- `/status` — gateway and task summary
+- `/eldio …` — proxy to Eldio bridge (when enabled on the gateway)
+- Type `/` in chat to open the command menu
+
+Do not commit tunnel URLs, pairing tokens, or device credentials.
 
 ## Architecture
 
@@ -20,41 +89,15 @@
        └──────────────────────────────────────────────┘
 ```
 
-- **Onboarding:** Scan desktop **Remote Setup** QR → auto-fill tunnel URL + device token → connection test.
-- **Chat:** Plain-text rendering (markdown sanitized for mobile).
-- **Approvals:** Push-friendly inbox for gateway permission prompts.
-- **Slash commands:** `/status`, `/eldio`, and extensible handlers when the Eldio bridge is enabled on the gateway.
+| Area | Technology |
+|------|------------|
+| Mobile | Expo 54, React Native |
+| Transport | HTTPS (Cloudflare quick tunnel) |
+| Pairing | QR → `POST /devices/confirm` |
+| Credentials | Expo Secure Store |
+| Gateway | nodaysgent local API + WebSocket timeline |
 
-Package: `com.nodaysidle.agentpilot2.remote` · display name: **twentyone**
-
-## Install (release APK)
-
-Download the latest **`app-release.apk`** from [GitHub Releases](https://github.com/nodaysidle/twentyone/releases).
-
-```bash
-adb install -r app-release.apk
-```
-
-Or sideload the APK on device. You need a running nodaysgent gateway with Cloudflare tunnel and a pairing QR from desktop **Remote Setup**.
-
-## Prerequisites (Mac)
-
-1. nodaysgent gateway listening (default `127.0.0.1:3110`).
-2. Public URL via Cloudflare quick tunnel (or your own reverse proxy).
-3. Desktop → **Remote Setup** → **Create Android pairing token** (~5 min TTL).
-
-## Connect via QR
-
-1. Open **twentyone** → **Scan pairing QR**.
-2. Scan the JSON QR from desktop (contains `gatewayUrl`, pairing token, fingerprint, expiry).
-3. App confirms via `POST {gatewayUrl}/devices/confirm` and stores the device token.
-4. **Test connection** → **Continue to twentyone**.
-
-Manual fallback: **Settings** → paste tunnel URL and remote/device token.
-
-## Build from source
-
-Requirements: Node 20+, Android SDK, JDK 17.
+## Build
 
 ```bash
 npm install
@@ -67,25 +110,20 @@ cd android && ./gradlew assembleRelease
 
 Release APK: `android/app/build/outputs/apk/release/app-release.apk`
 
-## Development
+**Development**
 
 ```bash
 npm run dev               # Expo dev client
 npm run android:device    # Run on connected device
 ```
 
-USB `adb reverse` against localhost is for dev builds only; the release app is **Cloudflare-only**.
+USB `adb reverse` against localhost is for dev builds only; release builds are Cloudflare-only.
 
-## Security
+## Status
 
-- Device tokens live in **Expo Secure Store** on the phone.
-- Sensitive gateway tools still require explicit approval; denials are recorded on the task timeline.
-- Do not commit tunnel URLs, pairing tokens, or `remote-token` file contents.
+**v0.1.0** — first public Android release ([twentyone-v0.1.0](https://github.com/nodaysidle/twentyone/releases/tag/twentyone-v0.1.0)).
 
-## Related
-
-- nodaysgent monorepo (gateway + desktop): private / separate release track.
-- Tag **`twentyone-v0.1.0`** marks the first public Android ship.
+Active development alongside [nodaysgent](https://github.com/nodaysidle/nodaysgent).
 
 ## License
 
