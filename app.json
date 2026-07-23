@@ -11,7 +11,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#0E1621"
+      "backgroundColor": "#0A0A0F"
     },
     "android": {
       "package": "com.nodaysidle.agentpilot2.remote",
@@ -19,7 +19,7 @@
       "permissions": ["POST_NOTIFICATIONS", "CAMERA"],
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#0E1621"
+        "backgroundColor": "#0A0A0F"
       }
     },
     "plugins": [
@@ -32,7 +32,7 @@
     ],
     "notification": {
       "icon": "./assets/notification-icon.png",
-      "color": "#3390EC"
+      "color": "#C8FF00"
     }
   }
 }

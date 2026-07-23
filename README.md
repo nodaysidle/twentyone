@@ -1,3 +1,5 @@
+<img src=".github/social-preview.png" alt="twentyone — NODAYSIDLE" width="100%">
+
 # twentyone
 
 > Android remote controller for nodaysgent — chat with your local Mac gateway, approve sensitive actions, and send slash commands over a Cloudflare tunnel.
